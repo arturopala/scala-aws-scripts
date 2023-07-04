@@ -1,0 +1,7 @@
+.vscode/
+.bloop/
+.scala-build/
+.metals/
+.bsp/
+target/
+sbt-launcher.jar
