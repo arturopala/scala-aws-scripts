@@ -5,3 +5,5 @@
 .bsp/
 target/
 sbt-launcher.jar
+dynamoDbScript
+dynamoDbScript.build_artifacts.txt

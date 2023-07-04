@@ -4,11 +4,32 @@
 //> using toolkit latest
 
 import munit.Clue.generate
+import scala.concurrent.duration.Duration
 
 class DynameDbPutItemTest extends munit.FunSuite {
-  test("run script on a localstack") {
+
+  override val munitTimeout = Duration(300, "s")
+
+  test("build and run native script on a localstack") {
 
     val localstackPort = 4566
+
+    os.remove(os.pwd / "dynamoDbScript")
+    os.remove(os.pwd / "dynamoDbScript.build_artifacts.txt")
+
+    val buildNativeImage =
+      os.proc(
+        "scala-cli",
+        "--power",
+        "package",
+        "--native-image",
+        "dynamoDbScript.sc",
+        "--",
+        "--no-fallback",
+        "--initialize-at-build-time=org.slf4j"
+      ).call(
+        timeout = Long.MaxValue
+      )
 
     val localstackUp =
       os.proc("docker", "compose", "-f", "docker/localstack.yml", "up")
@@ -19,7 +40,7 @@ class DynameDbPutItemTest extends munit.FunSuite {
         )
 
     val script =
-      os.proc("./dynamoDbScript.sc", "-s", "alpha")
+      os.proc("./dynamoDbScript", "-s", "alpha")
         .call(
           check = false,
           env = Map(
