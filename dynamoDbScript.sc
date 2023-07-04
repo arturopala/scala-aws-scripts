@@ -2,7 +2,6 @@
 
 //> using scala 3.3.0
 //> using jvm 17
-//> using dep org.apache.logging.log4j:log4j-slf4j-impl:2.20.0
 //> using dep software.amazon.awssdk:bom:2.20.97
 //> using dep software.amazon.awssdk:dynamodb:2.20.97
 //> using dep software.amazon.awssdk:sso:2.20.97

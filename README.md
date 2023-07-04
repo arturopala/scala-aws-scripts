@@ -18,3 +18,8 @@ Handy examples of the Scala scripts performing tasks on AWS using Java SDKv2
 scala-cli test dynamoDbScript.test.scala
 ```
 
+## Build GraalVM native image
+
+```sh
+scala-cli --power package --native-image dynamoDbScript.sc -- --no-fallback --initialize-at-build-time=org.slf4j
+```
