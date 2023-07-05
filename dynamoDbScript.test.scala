@@ -49,7 +49,9 @@ class DynameDbPutItemTest extends munit.FunSuite {
             "AWS_SECRET_ACCESS_KEY" -> "test",
             "AWS_DEFAULT_REGION" -> "us-east-1",
             "LOCALSTACK_PORT" -> localstackPort.toString
-          )
+          ),
+          mergeErrIntoOut = true,
+          stdout = os.Inherit
         )
 
     assert(script.exitCode == 0)

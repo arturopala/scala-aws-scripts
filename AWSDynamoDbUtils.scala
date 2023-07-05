@@ -171,6 +171,30 @@ object AWSDynamoDbUtils {
     response
   }
 
+  def getItem(tableName: String, key: (String, AttributeValue))(using
+      DynamoDbClient
+  ): Option[Map[String, AttributeValue]] = {
+
+    val request: GetItemRequest = GetItemRequest
+      .builder()
+      .key(Map(key).asJava)
+      .tableName(tableName)
+      .build()
+
+    // If there is no matching item, GetItem does not return any data.
+    val returnedItem: Map[String, AttributeValue] =
+      summon[DynamoDbClient].getItem(request).item().asScala.toMap
+
+    if (returnedItem.isEmpty)
+      println(
+        s"${ERROR}No item found in $tableName with the key $key!${RESET}"
+      )
+      None
+    else {
+      Some(returnedItem)
+    }
+  }
+
   def sha256Hash(text: String): String =
     String.format(
       "%064x",

@@ -2,9 +2,9 @@
 
 //> using scala 3.3.0
 //> using jvm 17
-//> using dep software.amazon.awssdk:bom:2.20.97
-//> using dep software.amazon.awssdk:dynamodb:2.20.97
-//> using dep software.amazon.awssdk:sso:2.20.97
+//> using dep software.amazon.awssdk:bom:2.20.98
+//> using dep software.amazon.awssdk:dynamodb:2.20.98
+//> using dep software.amazon.awssdk:sso:2.20.98
 //> using file CommandLineUtils.scala
 //> using file AWSDynamoDbUtils.scala
 
@@ -30,9 +30,11 @@ run {
       ignoreTableAlreadyExists = true
     )
 
+    val uuid = UUID.randomUUID().toString()
+
     updateItemInTable(
       tableName = s"pets-$stage",
-      key = "uuid" -> UUID.randomUUID().toString(),
+      key = "uuid" -> uuid,
       update = Map(
         "name" -> "Rex",
         "dateOfBirth" -> "2020-08-18",
@@ -49,6 +51,11 @@ run {
           )
         )
       )
+    )
+
+    val maybeItem = getItem(
+      tableName = s"pets-$stage",
+      key = "uuid" -> uuid
     )
   }
 
